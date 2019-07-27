@@ -21,17 +21,18 @@ def apply_coupons(cart, coupons)
   coupons.each do |coupon|
     name = coupon[:item]
     number = coupon[:num]
-    if contents[name]
-      contents[name][:count] -= number
-    end
+    # if contents[name]
+    #   contents[name][:count] -= number
+    # end
 
-    if cart.keys.include?(name)
+    if cart.include?(name) && cart[name][:count] >= number
+      contents[name][:count] -= number
       if contents["#{name} W/COUPON"]
-        contents["#{name} W/COUPON"][:count] += coupon[:num]
+        contents["#{name} W/COUPON"][:count] += 1
       else
         contents["#{name} W/COUPON"] = {
           price: coupon[:cost] / coupon[:num],
-          count: coupon[:num],
+          count: 1,
           clearance: contents[name][:clearance]
         }
       end
@@ -58,9 +59,11 @@ def checkout(cart, coupons)
   result.each do |item, name|
     total += (name[:price] * name[:count])
   end
+
   if total > 100
     total = total * 0.9
   end
+
   total
 
 end
