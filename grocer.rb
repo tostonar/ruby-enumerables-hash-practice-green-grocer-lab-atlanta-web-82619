@@ -21,11 +21,9 @@ def apply_coupons(cart, coupons)
   coupons.each do |coupon|
     name = coupon[:item]
     number = coupon[:num]
-    # if contents[name]
-    #   contents[name][:count] -= number
-    # end
-
+    # if coupon applies to anything in cart & has same or more amount than coupon requires
     if cart.include?(name) && cart[name][:count] >= number
+      # decrease number from cart that coupon applied to
       contents[name][:count] -= number
       if contents["#{name} W/COUPON"]
         contents["#{name} W/COUPON"][:count] += number
