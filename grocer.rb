@@ -28,11 +28,11 @@ def apply_coupons(cart, coupons)
     if cart.include?(name) && cart[name][:count] >= number
       contents[name][:count] -= number
       if contents["#{name} W/COUPON"]
-        contents["#{name} W/COUPON"][:count] += 1
+        contents["#{name} W/COUPON"][:count] += number
       else
         contents["#{name} W/COUPON"] = {
-          price: coupon[:cost] / coupon[:num],
-          count: 1,
+          price: coupon[:cost] / number,
+          count: number,
           clearance: contents[name][:clearance]
         }
       end
